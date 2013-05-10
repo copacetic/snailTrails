@@ -10,7 +10,7 @@ import sys
 """A Field is composed of Places which are occupied by Animals"""
 
 MAX_ADJACENT_POSITIONS = 8
-SIZE = 100
+SIZE = 500
 #types = [Turtle, Rabbit, Monkey]
 possible_vectors = [(1,1), (1,0), (0,1), (-1,0), (0, -1), (-1,1), (1,-1), (-1,-1)]
 DIM_X, DIM_Y = 600.0, 600.0
@@ -139,12 +139,12 @@ def gen_vector_field(seed):
         coeff = a*math.exp(b*rad)
         #coeff = 299
         x = 200*math.cos(3*rad) + DIM_X/2 # bottom left corner is 0, 0
-        y = 300*math.sin(rad) + DIM_Y/2 # so we center it
+        y = 300*math.sin(5*rad) + DIM_Y/2 # so we center it
         nextRad = math.radians(t+.5)
         nextCoeff = a*math.exp(b*(nextRad))
         #nextCoeff = 299
         nextX = 200*math.cos(3*nextRad) + DIM_X/2 
-        nextY = 300*math.sin(nextRad) + DIM_Y/2 
+        nextY = 300*math.sin(5*nextRad) + DIM_Y/2 
         
         dirX, dirY = nextX - x, nextY - y
 
@@ -215,7 +215,7 @@ def display ():
 def init_simulation():
     critters = []
     field = [[Place() for _ in range(SIZE)] for _ in range(SIZE)]
-    for _ in range(10*SIZE):
+    for _ in range(20*SIZE):
         newAutomata = Animal(field, (random.randint(0,SIZE - 1), random.randint(0, SIZE - 1)))#types[random.randint(0,len(types) - 1)]()
         critters.append(newAutomata)
     return (critters, field)
