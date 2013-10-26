@@ -1,6 +1,9 @@
 from OpenGL.GL import *
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
+from OpenGL.arrays import vbo
+
+import numpy as np
 
 from time import sleep
 import math
@@ -93,32 +96,38 @@ def initGL():
     glColor3f(0.0,0.0, 0.0)
     glMatrixMode(GL_MODELVIEW)
     glLoadIdentity()
-    gluOrtho2D(0.0,DIM_X,0.0,DIM_Y)
+    gluOrtho2D(0.0,int(DIM_X),0.0,(DIM_Y))
 
 def draw_field(field):
-    #to_draw = []
+    to_draw = []
 
     glClear(GL_COLOR_BUFFER_BIT)
-    glBegin(GL_QUADS)
     for row in range(len(field)):
         for column in range(len(field[row])):
             currPlace = field[row][column]
             if currPlace.occupied == True:
-                glColor3f(*currPlace.occupant.color)
-                #to_draw.extend([column*X_STEP_SIZE, (row+1)*Y_STEP_SIZE, (column+1)*X_STEP_SIZE, (row+1)*Y_STEP_SIZE, (column+1)*X_STEP_SIZE, row*Y_STEP_SIZE, column*X_STEP_SIZE, row*Y_STEP_SIZE])
-                glVertex2f(column*X_STEP_SIZE, (row+1)*Y_STEP_SIZE)
-                glVertex2f((column+1)*X_STEP_SIZE, (row+1)*Y_STEP_SIZE)
-                glVertex2f((column+1)*X_STEP_SIZE, row*Y_STEP_SIZE)
-                glVertex2f(column*X_STEP_SIZE, row*Y_STEP_SIZE)
-    
-    #d = np.array(to_draw)
-    #  print d
+                # glColor3f(*currPlace.occupant.color)
+                low_x = column*X_STEP_SIZE
+                low_y = row*Y_STEP_SIZE
+                high_x = low_x + X_STEP_SIZE
+                high_y = low_y + Y_STEP_SIZE
+                a_square = [
+                  [low_x, low_y],
+                  [high_x, low_y],
+                  [high_x, high_y],
+                  [low_x, low_y],
+                  [high_x, high_y],
+                  [low_x, high_y]
+                ]
+                to_draw.extend(a_square)
+    print to_draw
+    the_vbo = vbo.VBO(np.array(to_draw, 'i'))
+    the_vbo.bind();
 
-    #glEnableClientState(GL_VERTEX_ARRAY)
-    #glVertexPointer(2, GL_FLOAT, 0, d)
-    #glDrawArrays(GL_QUADS, 0, len(d))
-    #glDisableClientState(GL_VERTEX_ARRAY)
-    glEnd()
+    glEnableClientState(GL_VERTEX_ARRAY)
+    glVertexPointer(2, GL_INT, 0, the_vbo)
+    glDrawArrays(GL_TRIANGLES, 0, len(to_draw))
+    glDisableClientState(GL_VERTEX_ARRAY)
     glutSwapBuffers();
 #(0, DIM_Y)  (DIM_X, DIM_Y)
 #|---|
