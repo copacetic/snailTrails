@@ -9,17 +9,18 @@ from typing import Dict, Any
 class ConfigManager:
     """Manages and validates simulation configuration"""
 
-    # Default configuration
+    # Default configuration (4K widescreen)
     DEFAULTS = {
-        'GRID_SIZE': 2048,
+        'GRID_SIZE': 4096,
         'NUM_AGENTS': 10_000_000,
-        'WINDOW_WIDTH': 1920,
-        'WINDOW_HEIGHT': 1080,
+        'WINDOW_WIDTH': 3840,
+        'WINDOW_HEIGHT': 2160,
         'VSYNC': True,
+        'FULLSCREEN': False,
         'SHOW_FPS': True,
         'STUCK_THRESHOLD_PERCENT': 1.0,
-        'FIELD_SAMPLES': 500,
-        'AGENT_SIZE': 0.8,
+        'FIELD_SAMPLES': 1000,
+        'AGENT_SIZE': 0.6,
         'COLOR_MODE': 'velocity',
         'FIELD_WORK_GROUP_SIZE': 16,
         'AGENT_WORK_GROUP_SIZE': 256,

@@ -16,12 +16,13 @@ class TestConfigManager:
     """Test configuration management"""
 
     def test_default_config(self):
-        """Test default configuration loads correctly"""
+        """Test default configuration loads correctly (4K defaults)"""
         config = ConfigManager()
-        assert config['GRID_SIZE'] == 2048
+        assert config['GRID_SIZE'] == 4096
         assert config['NUM_AGENTS'] == 10_000_000
-        assert config['WINDOW_WIDTH'] == 1920
-        assert config['WINDOW_HEIGHT'] == 1080
+        assert config['WINDOW_WIDTH'] == 3840
+        assert config['WINDOW_HEIGHT'] == 2160
+        assert config['FULLSCREEN'] == False
 
     def test_custom_config(self):
         """Test custom configuration"""
@@ -29,8 +30,8 @@ class TestConfigManager:
         config = ConfigManager(custom)
         assert config['GRID_SIZE'] == 512
         assert config['NUM_AGENTS'] == 1000
-        # Defaults still apply
-        assert config['WINDOW_WIDTH'] == 1920
+        # Defaults still apply (4K defaults)
+        assert config['WINDOW_WIDTH'] == 3840
 
     def test_validation_grid_size(self):
         """Test grid size validation"""
@@ -102,8 +103,8 @@ class TestConfigManager:
         """Test get method with defaults"""
         config = ConfigManager()
 
-        # Existing key
-        assert config.get('GRID_SIZE') == 2048
+        # Existing key (4K default)
+        assert config.get('GRID_SIZE') == 4096
 
         # Non-existing key with default
         assert config.get('NONEXISTENT', 42) == 42

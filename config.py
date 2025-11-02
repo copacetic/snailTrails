@@ -11,9 +11,9 @@ Edit these values to scale the simulation
 # RTX 4090 recommendations:
 #   512   - Small (fast testing)
 #   1024  - Medium (good balance)
-#   2048  - Large (recommended)
-#   4096  - Extreme (max detail)
-GRID_SIZE = 2048
+#   2048  - Large (recommended for 1080p)
+#   4096  - Extreme (perfect for 4K displays!)
+GRID_SIZE = 4096
 
 # Number of agents
 # RTX 4090 recommendations:
@@ -29,12 +29,15 @@ NUM_AGENTS = 10_000_000
 # DISPLAY SETTINGS
 # ===========================================
 
-# Window resolution
-WINDOW_WIDTH = 1920
-WINDOW_HEIGHT = 1080
+# Window resolution (4K widescreen default)
+WINDOW_WIDTH = 3840
+WINDOW_HEIGHT = 2160
 
 # Vsync (limits FPS to monitor refresh rate)
 VSYNC = True
+
+# Fullscreen mode (recommended for 4K displays)
+FULLSCREEN = False
 
 # Show FPS counter in title
 SHOW_FPS = True
@@ -50,7 +53,8 @@ STUCK_THRESHOLD_PERCENT = 1.0  # Regenerate when <1% moving
 
 # Vector field complexity
 # Higher = more detailed patterns, slower generation
-FIELD_SAMPLES = 500  # Per-cell samples (500 is good balance)
+# 4K displays benefit from higher sample counts
+FIELD_SAMPLES = 1000  # Per-cell samples (1000 for 4K, 500 for 1080p)
 
 # ===========================================
 # ADVANCED SETTINGS
@@ -63,9 +67,10 @@ AGENT_WORK_GROUP_SIZE = 256  # 256 threads for agent updates
 
 # Agent render size multiplier
 # 1.0 = agents fill grid cells
-# 0.8 = agents slightly smaller (default)
-# 0.5 = tiny agents
-AGENT_SIZE = 0.8
+# 0.8 = agents slightly smaller
+# 0.6 = good for 4K displays (default)
+# 0.5 = tiny agents (more detail)
+AGENT_SIZE = 0.6
 
 # Color mode
 # 'velocity' - Rainbow based on direction (default)
@@ -82,24 +87,42 @@ COLOR_MODE = 'velocity'
 # NUM_AGENTS = 100_000
 # WINDOW_WIDTH = 1280
 # WINDOW_HEIGHT = 720
+# AGENT_SIZE = 0.8
 
-# # PRESET: Balanced (good for most GPUs)
+# # PRESET: 1080p Balanced
 # GRID_SIZE = 1024
 # NUM_AGENTS = 1_000_000
 # WINDOW_WIDTH = 1920
 # WINDOW_HEIGHT = 1080
+# AGENT_SIZE = 0.8
 
-# # PRESET: RTX 4090 Full Power (RECOMMENDED)
+# # PRESET: 1080p High Performance
 # GRID_SIZE = 2048
 # NUM_AGENTS = 10_000_000
 # WINDOW_WIDTH = 1920
 # WINDOW_HEIGHT = 1080
+# AGENT_SIZE = 0.7
+
+# # PRESET: 4K Widescreen (RECOMMENDED for 4K displays)
+# GRID_SIZE = 4096
+# NUM_AGENTS = 10_000_000
+# WINDOW_WIDTH = 3840
+# WINDOW_HEIGHT = 2160
+# AGENT_SIZE = 0.6
+
+# # PRESET: 4K Ultra (maximum detail)
+# GRID_SIZE = 4096
+# NUM_AGENTS = 20_000_000
+# WINDOW_WIDTH = 3840
+# WINDOW_HEIGHT = 2160
+# AGENT_SIZE = 0.5
 
 # # PRESET: Extreme Scale (RTX 4090 stress test)
 # GRID_SIZE = 4096
 # NUM_AGENTS = 50_000_000
 # WINDOW_WIDTH = 3840
 # WINDOW_HEIGHT = 2160
+# AGENT_SIZE = 0.5
 
 # ===========================================
 # CALCULATED VALUES (don't edit)

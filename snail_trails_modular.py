@@ -33,6 +33,7 @@ class SnailTrailsGPU(mglw.WindowConfig):
         self.aspect_ratio = self.config['WINDOW_WIDTH'] / self.config['WINDOW_HEIGHT']
         self.resizable = False
         self.vsync = self.config['VSYNC']
+        self.fullscreen = self.config.get('FULLSCREEN', False)
 
         super().__init__(**kwargs)
 
