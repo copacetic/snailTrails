@@ -48,7 +48,7 @@ class TestShaderManager:
         with open(os.path.join(shader_dir, 'agent_compute.glsl'), 'r') as f:
             content = f.read()
             assert '#version 430' in content
-            assert 'layout(local_size_x = 256)' in content
+            assert 'layout(local_size_x = 512)' in content  # EXTREME mode
             assert 'struct Agent' in content
             assert 'atomicCompSwap' in content
 

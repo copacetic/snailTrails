@@ -1,6 +1,8 @@
 #version 430
 
-layout(local_size_x = 256) in;
+// Work group size optimized for RTX 4090 EXTREME mode
+// Can be 256, 512, or 1024 depending on config
+layout(local_size_x = 512) in;
 
 struct Agent {
     vec2 pos;

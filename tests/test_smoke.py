@@ -138,7 +138,7 @@ class TestRealWorldScenarios:
             ],
             'agent_compute.glsl': [
                 '#version 430',
-                'layout(local_size_x = 256)',
+                'layout(local_size_x = 512)',  # EXTREME mode work group size
                 'uniform int gridSize',
                 'uniform int numAgents',
                 'atomicCompSwap'

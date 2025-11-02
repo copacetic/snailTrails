@@ -16,13 +16,14 @@ class TestConfigManager:
     """Test configuration management"""
 
     def test_default_config(self):
-        """Test default configuration loads correctly (4K defaults)"""
+        """Test default configuration loads correctly (EXTREME mode defaults)"""
         config = ConfigManager()
         assert config['GRID_SIZE'] == 4096
-        assert config['NUM_AGENTS'] == 10_000_000
+        assert config['NUM_AGENTS'] == 50_000_000  # EXTREME mode!
         assert config['WINDOW_WIDTH'] == 3840
         assert config['WINDOW_HEIGHT'] == 2160
         assert config['FULLSCREEN'] == False
+        assert config['AGENT_WORK_GROUP_SIZE'] == 512  # EXTREME mode
 
     def test_custom_config(self):
         """Test custom configuration"""
