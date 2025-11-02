@@ -1,0 +1,12 @@
+# GPU-Accelerated Snail Trails Requirements
+# For Windows with NVIDIA RTX 4090
+
+# Core dependencies
+moderngl>=5.8.0
+moderngl-window>=2.4.0
+numpy>=1.24.0
+PyGLM>=2.7.0
+
+# Optional performance monitoring
+psutil>=5.9.0
+GPUtil>=1.4.0
