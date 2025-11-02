@@ -20,10 +20,11 @@ GRID_SIZE = 4096
 #   100,000    - Warm-up
 #   1,000,000  - Good starting point
 #   5,000,000  - Balanced
-#   10,000,000 - RECOMMENDED (10M agents!)
-#   20,000,000 - Ultra scale
-#   50,000,000 - Extreme (uses ~12GB VRAM)
-NUM_AGENTS = 10_000_000
+#   10,000,000 - Standard (10M agents)
+#   20,000,000 - High (20M agents)
+#   50,000,000 - Extreme (50M agents - ~12GB VRAM)
+#   100,000,000 - INSANE MODE! (100M agents - ~18GB VRAM) 🔥
+NUM_AGENTS = 50_000_000  # EXTREME MODE ENABLED!
 
 # ===========================================
 # DISPLAY SETTINGS
@@ -42,6 +43,11 @@ FULLSCREEN = False
 # Show FPS counter in title
 SHOW_FPS = True
 
+# Performance monitoring
+SHOW_DETAILED_STATS = True  # Show frame time, GPU usage stats
+BENCHMARK_MODE = False       # Run for 300 frames then show average FPS
+TARGET_FPS = 60             # Target framerate
+
 # ===========================================
 # SIMULATION BEHAVIOR
 # ===========================================
@@ -54,23 +60,29 @@ STUCK_THRESHOLD_PERCENT = 1.0  # Regenerate when <1% moving
 # Vector field complexity
 # Higher = more detailed patterns, slower generation
 # 4K displays benefit from higher sample counts
-FIELD_SAMPLES = 1000  # Per-cell samples (1000 for 4K, 500 for 1080p)
+FIELD_SAMPLES = 2000  # EXTREME: 2000 samples for ultra-smooth fields
 
 # ===========================================
 # ADVANCED SETTINGS
 # ===========================================
 
 # Compute shader work group sizes
-# Only change if you know what you're doing!
+# Optimized for RTX 4090!
 FIELD_WORK_GROUP_SIZE = 16   # 16x16 for field generation
-AGENT_WORK_GROUP_SIZE = 256  # 256 threads for agent updates
+AGENT_WORK_GROUP_SIZE = 512  # 512 threads for agent updates (2x default!)
+
+# Advanced rendering options
+ENABLE_MOTION_BLUR = False   # Smooth trails (experimental)
+ENABLE_GLOW_EFFECT = False   # Agents glow based on speed
+PARTICLE_DENSITY = 1.0       # Density multiplier (0.5 = sparse, 2.0 = dense)
 
 # Agent render size multiplier
 # 1.0 = agents fill grid cells
 # 0.8 = agents slightly smaller
-# 0.6 = good for 4K displays (default)
+# 0.6 = good for 4K displays
 # 0.5 = tiny agents (more detail)
-AGENT_SIZE = 0.6
+# 0.3 = microscopic (extreme detail) 🔬
+AGENT_SIZE = 0.4  # Extreme detail mode
 
 # Color mode
 # 'velocity' - Rainbow based on direction (default)
@@ -88,6 +100,8 @@ COLOR_MODE = 'velocity'
 # WINDOW_WIDTH = 1280
 # WINDOW_HEIGHT = 720
 # AGENT_SIZE = 0.8
+# FIELD_SAMPLES = 200
+# AGENT_WORK_GROUP_SIZE = 256
 
 # # PRESET: 1080p Balanced
 # GRID_SIZE = 1024
@@ -95,6 +109,8 @@ COLOR_MODE = 'velocity'
 # WINDOW_WIDTH = 1920
 # WINDOW_HEIGHT = 1080
 # AGENT_SIZE = 0.8
+# FIELD_SAMPLES = 500
+# AGENT_WORK_GROUP_SIZE = 256
 
 # # PRESET: 1080p High Performance
 # GRID_SIZE = 2048
@@ -102,27 +118,57 @@ COLOR_MODE = 'velocity'
 # WINDOW_WIDTH = 1920
 # WINDOW_HEIGHT = 1080
 # AGENT_SIZE = 0.7
+# FIELD_SAMPLES = 500
+# AGENT_WORK_GROUP_SIZE = 512
 
-# # PRESET: 4K Widescreen (RECOMMENDED for 4K displays)
+# # PRESET: 4K Balanced
 # GRID_SIZE = 4096
 # NUM_AGENTS = 10_000_000
 # WINDOW_WIDTH = 3840
 # WINDOW_HEIGHT = 2160
 # AGENT_SIZE = 0.6
+# FIELD_SAMPLES = 1000
+# AGENT_WORK_GROUP_SIZE = 256
 
-# # PRESET: 4K Ultra (maximum detail)
+# # PRESET: 4K High Performance
 # GRID_SIZE = 4096
 # NUM_AGENTS = 20_000_000
 # WINDOW_WIDTH = 3840
 # WINDOW_HEIGHT = 2160
 # AGENT_SIZE = 0.5
+# FIELD_SAMPLES = 1500
+# AGENT_WORK_GROUP_SIZE = 512
 
-# # PRESET: Extreme Scale (RTX 4090 stress test)
+# # PRESET: 4K EXTREME (50M agents) 🔥
 # GRID_SIZE = 4096
 # NUM_AGENTS = 50_000_000
 # WINDOW_WIDTH = 3840
 # WINDOW_HEIGHT = 2160
-# AGENT_SIZE = 0.5
+# AGENT_SIZE = 0.4
+# FIELD_SAMPLES = 2000
+# AGENT_WORK_GROUP_SIZE = 512
+# SHOW_DETAILED_STATS = True
+
+# # PRESET: INSANE MODE (100M agents) 💀
+# GRID_SIZE = 4096
+# NUM_AGENTS = 100_000_000
+# WINDOW_WIDTH = 3840
+# WINDOW_HEIGHT = 2160
+# AGENT_SIZE = 0.3
+# FIELD_SAMPLES = 2000
+# AGENT_WORK_GROUP_SIZE = 1024
+# SHOW_DETAILED_STATS = True
+# BENCHMARK_MODE = True
+
+# # PRESET: ABSOLUTE MAXIMUM (push to the limit!)
+# GRID_SIZE = 8192
+# NUM_AGENTS = 100_000_000
+# WINDOW_WIDTH = 3840
+# WINDOW_HEIGHT = 2160
+# AGENT_SIZE = 0.2
+# FIELD_SAMPLES = 3000
+# AGENT_WORK_GROUP_SIZE = 1024
+# SHOW_DETAILED_STATS = True
 
 # ===========================================
 # CALCULATED VALUES (don't edit)

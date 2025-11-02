@@ -9,21 +9,27 @@ from typing import Dict, Any
 class ConfigManager:
     """Manages and validates simulation configuration"""
 
-    # Default configuration (4K widescreen)
+    # Default configuration (4K widescreen EXTREME mode)
     DEFAULTS = {
         'GRID_SIZE': 4096,
-        'NUM_AGENTS': 10_000_000,
+        'NUM_AGENTS': 50_000_000,  # EXTREME: 50M agents!
         'WINDOW_WIDTH': 3840,
         'WINDOW_HEIGHT': 2160,
         'VSYNC': True,
         'FULLSCREEN': False,
         'SHOW_FPS': True,
+        'SHOW_DETAILED_STATS': True,
+        'BENCHMARK_MODE': False,
+        'TARGET_FPS': 60,
         'STUCK_THRESHOLD_PERCENT': 1.0,
-        'FIELD_SAMPLES': 1000,
-        'AGENT_SIZE': 0.6,
+        'FIELD_SAMPLES': 2000,
+        'AGENT_SIZE': 0.4,
         'COLOR_MODE': 'velocity',
         'FIELD_WORK_GROUP_SIZE': 16,
-        'AGENT_WORK_GROUP_SIZE': 256,
+        'AGENT_WORK_GROUP_SIZE': 512,  # 2x default for extreme mode
+        'ENABLE_MOTION_BLUR': False,
+        'ENABLE_GLOW_EFFECT': False,
+        'PARTICLE_DENSITY': 1.0,
     }
 
     # Validation constraints

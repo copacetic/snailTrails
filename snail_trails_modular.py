@@ -49,6 +49,14 @@ class SnailTrailsGPU(mglw.WindowConfig):
         self.stats = SimulationStats()
         self.last_fps_time = time.time()
         self.fps_frames = 0
+        self.frame_times = []  # For detailed performance stats
+        self.last_frame_time = time.time()
+
+        # Benchmark mode
+        if self.config.get('BENCHMARK_MODE', False):
+            self.benchmark_frames = 0
+            self.benchmark_start = time.time()
+            print("\n🎯 BENCHMARK MODE ENABLED: Running for 300 frames...\n")
 
         # Setup GPU resources
         self.setup_simulation()
@@ -154,8 +162,9 @@ class SnailTrailsGPU(mglw.WindowConfig):
         self.agent_compute['gridSize'] = self.config['GRID_SIZE']
         self.agent_compute['numAgents'] = self.config['NUM_AGENTS']
 
-        # Dispatch compute shader
-        groups = (self.config['NUM_AGENTS'] + 255) // 256
+        # Dispatch compute shader (using configured work group size)
+        work_group_size = self.config.get('AGENT_WORK_GROUP_SIZE', 256)
+        groups = (self.config['NUM_AGENTS'] + work_group_size - 1) // work_group_size
         self.agent_compute.run(groups)
 
         # Read back stats
@@ -183,6 +192,8 @@ class SnailTrailsGPU(mglw.WindowConfig):
 
     def render(self, time_elapsed, frame_time):
         """Render frame"""
+        frame_start = time.time()
+
         self.ctx.clear(1.0, 1.0, 1.0)
 
         # Update simulation
@@ -207,14 +218,53 @@ class SnailTrailsGPU(mglw.WindowConfig):
         # Draw all agents with instancing
         self.vao.render(instances=self.config['NUM_AGENTS'])
 
+        # Calculate frame time
+        frame_end = time.time()
+        current_frame_time = (frame_end - frame_start) * 1000  # ms
+        self.frame_times.append(current_frame_time)
+        if len(self.frame_times) > 60:
+            self.frame_times.pop(0)
+
+        # Benchmark mode
+        if self.config.get('BENCHMARK_MODE', False):
+            self.benchmark_frames += 1
+            if self.benchmark_frames >= 300:
+                total_time = time.time() - self.benchmark_start
+                avg_fps = 300 / total_time
+                avg_frame_time = (total_time / 300) * 1000
+                print("\n" + "="*70)
+                print("🏁 BENCHMARK COMPLETE!")
+                print("="*70)
+                print(f"  Total frames: 300")
+                print(f"  Total time: {total_time:.2f}s")
+                print(f"  Average FPS: {avg_fps:.2f}")
+                print(f"  Average frame time: {avg_frame_time:.2f}ms")
+                print(f"  Min frame time: {min(self.frame_times):.2f}ms")
+                print(f"  Max frame time: {max(self.frame_times):.2f}ms")
+                print(f"  Agents: {self.config['NUM_AGENTS']:,}")
+                print(f"  Grid: {self.config['GRID_SIZE']}x{self.config['GRID_SIZE']}")
+                print("="*70)
+                self.wnd.close()
+                return
+
         # Update FPS display
         self.fps_frames += 1
         if self.config['SHOW_FPS'] and time_elapsed - self.last_fps_time >= 1.0:
             fps = self.fps_frames / (time_elapsed - self.last_fps_time)
-            self.wnd.title = (
-                f"Snail Trails GPU - {self.config['NUM_AGENTS']:,} Agents | "
-                f"FPS: {fps:.1f}"
-            )
+            avg_frame_time = sum(self.frame_times) / len(self.frame_times) if self.frame_times else 0
+
+            if self.config.get('SHOW_DETAILED_STATS', False):
+                self.wnd.title = (
+                    f"Snail Trails GPU - {self.config['NUM_AGENTS']:,} Agents | "
+                    f"FPS: {fps:.1f} | Frame: {avg_frame_time:.2f}ms | "
+                    f"Min: {min(self.frame_times):.1f}ms | Max: {max(self.frame_times):.1f}ms"
+                )
+            else:
+                self.wnd.title = (
+                    f"Snail Trails GPU - {self.config['NUM_AGENTS']:,} Agents | "
+                    f"FPS: {fps:.1f}"
+                )
+
             self.last_fps_time = time_elapsed
             self.fps_frames = 0
 
