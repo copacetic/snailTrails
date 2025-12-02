@@ -120,7 +120,6 @@ def draw_field(field):
                   [low_x, high_y]
                 ]
                 to_draw.extend(a_square)
-    print to_draw
     the_vbo = vbo.VBO(np.array(to_draw, 'i'))
     the_vbo.bind();
 
@@ -202,15 +201,15 @@ def display ():
                 if not moved and vF[critter.pos[1]][critter.pos[0]] != (0,0):
                     toRemove.append(critterCount)
             critterCount += 1
-        print list(reversed(toRemove))
+        print(list(reversed(toRemove)))
         for toRem in reversed(toRemove):
             field[critters[toRem].pos[0]][critters[toRem].pos[1]].clear_occupant()
             critters.pop(toRem)
         toRemove = []
-        print "Animals not moved: ", Animal.notMoved
-        print "Moving critters: ", abs(Animal.notMoved - len(critters))
-        print "Boundary: ", len(critters)/20.0
-        print
+        print("Animals not moved:", Animal.notMoved)
+        print("Moving critters:", abs(Animal.notMoved - len(critters)))
+        print("Boundary:", len(critters)/20.0)
+        print()
         if abs(Animal.notMoved - len(critters)) < len(critters)/100.0:
             numVFsGenerated += 1     
             vF = gen_vector_field(numRounds)
